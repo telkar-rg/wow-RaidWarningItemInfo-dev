@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Title: Raid Warning Item Info
+## Title: Raid Warning Item Info (RWII)
 ## Notes: Displays information for items posted in Raid Warning
 ## Version: 0.1
 ## Author: Telkar-RG
