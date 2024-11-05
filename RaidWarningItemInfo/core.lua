@@ -411,33 +411,32 @@ function ChatFrame_MessageEventHandler(self, event, ...)
 				outHC = "|cff1eff00".."HC".."|r"
 			end
 			
-			if knownToken then
-				if not outClasses then
-					if strsub(txtL,1,ttClassesLen) == ttClasses then
-						outClasses = strsub(txtL,ttClassesLen+1)
-						local tc = { strsplit(",", outClasses) }
-						local outClasses2 = {}
-						if #tc > 0 then
-							for _, cName in pairs(tc) do
-								cName = strtrim(cName)
-								if not classColorString[cName] then 
-									wipe(outClasses2)
-									outClasses2 = nil
-									break 
-								end
-								cName = "|c" .. classColorString[cName] .. cName .. "|r"
-								tinsert(outClasses2, cName)
+			if not outClasses then
+				if strsub(txtL,1,ttClassesLen) == ttClasses then
+					outClasses = strsub(txtL,ttClassesLen+1)
+					local tc = { strsplit(",", outClasses) }
+					local outClasses2 = {}
+					if #tc > 0 then
+						for _, cName in pairs(tc) do
+							cName = strtrim(cName)
+							if not classColorString[cName] then 
+								wipe(outClasses2)
+								outClasses2 = nil
+								break 
 							end
-						end
-						if outClasses2 then
-							outClasses = strjoin(", ", tostringall( unpack(outClasses2) ))
-							wipe(outClasses2)
-							outClasses2=nil
+							cName = "|c" .. classColorString[cName] .. cName .. "|r"
+							tinsert(outClasses2, cName)
 						end
 					end
+					if outClasses2 then
+						outClasses = "{ " .. strjoin(" ", tostringall( unpack(outClasses2) )) .. " }"
+						wipe(outClasses2)
+						outClasses2=nil
+					end
 				end
-				
-			else
+			end
+			
+			if not knownToken then
 				if not outType and txtR then
 					if itemEquipLoc == "INVTYPE_WEAPON" then
 						if (itemSubType == itemTypeWeaponDagger or itemSubType == itemTypeWeaponFist) then
@@ -502,25 +501,25 @@ function ChatFrame_MessageEventHandler(self, event, ...)
 		local msg = txtChatPrefix
 		
 		if outLevel then
-			msg = msg .. outLevel..", "
+			msg = msg .. outLevel
 		end
 		if outBOE then
-			msg = msg .. outBOE..", "
+			msg = msg..", " .. outBOE
 		end
 		if outHM then
-			msg = msg .. outHM..", "
+			msg = msg..", " .. outHM
 		end
 		if outHC then
-			msg = msg .. outHC..", "
+			msg = msg..", " .. outHC
 		end
 		if outType then
-			msg = msg .. outType..", "
+			msg = msg..", " .. outType
 		end
 		if outClasses then
-			msg = msg .. outClasses
+			msg = msg..", " .. outClasses
 		end
 		if #itemStatTable > 0 then
-			msg = msg .. "|cff80FF80" .. strjoin(", ", tostringall( unpack(itemStatTable) )) .. "|r"
+			msg = msg..", " .. "|cff80FF80" .. strjoin(", ", tostringall( unpack(itemStatTable) )) .. "|r"
 		end
 		wipe(itemStatTable)
 		
